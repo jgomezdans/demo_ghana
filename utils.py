@@ -8,7 +8,7 @@ import urllib.request
 import numpy as np
 
 import gdal
-gdal.UseExceptions()   
+gdal.UseExceptions()
 
 def extract_roi_data_ndre(img_db, roi=None, local_file=None):
     analysis_data = {}
@@ -34,14 +34,16 @@ def extract_roi_data_ndre(img_db, roi=None, local_file=None):
         if not np.isnan(np.nanmean(data1)):
             ndvi = (data2-data1)/(data2+data1)
             analysis_data[k] = ndvi
-            
-            
+    return analysis_data
 
-def grab_holdings(url="http://www2.geog.ucl.ac.uk/" + 
+
+
+
+def grab_holdings(url="http://www2.geog.ucl.ac.uk/" +
                   "~ucfajlg/Ghana/composites/database.json"):
 
     tmp_db  = json.loads(urllib.request.urlopen(url).read())
-    dates = [(k, dt.datetime.strptime(k, "%Y-%m-%d").date()) 
+    dates = [(k, dt.datetime.strptime(k, "%Y-%m-%d").date())
              for k in tmp_db.keys()]
 
     the_db = {kk:tmp_db[k] for (k,kk) in dates}
