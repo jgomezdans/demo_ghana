@@ -10,21 +10,21 @@ import numpy as np
 import gdal
 gdal.UseExceptions()
 
-def extract_roi_data_ndre(img_db, roi=None, local_file=None):
+def extract_roi_data_ndre(img_db, roi=None, b0=3, b1=6, local_file=None):
     analysis_data = {}
     for k in img_db.keys():
         if local_file is None:
-            g = gdal.Warp("", f"/vsicurl/{img_db[k][3]:s}", format="MEM",
+            g = gdal.Warp("", f"/vsicurl/{img_db[k][b0]:s}", format="MEM",
                      cutlineDSName=f"/vsicurl/{roi}", cropToCutline=True)
         else:
-            g = gdal.Warp("", f"/vsicurl/{img_db[k][3]:s}", format="MEM",
+            g = gdal.Warp("", f"/vsicurl/{img_db[k][b0]:s}", format="MEM",
                      cutlineDSName=f"{local_file}", cropToCutline=True)
         data1 = g.ReadAsArray()*1.
         if local_file is None:
-            g = gdal.Warp("", f"/vsicurl/{img_db[k][6]:s}", format="MEM",
+            g = gdal.Warp("", f"/vsicurl/{img_db[k][b1]:s}", format="MEM",
                      cutlineDSName=f"/vsicurl/{roi}", cropToCutline=True)
         else:
-            g = gdal.Warp("", f"/vsicurl/{img_db[k][6]:s}", format="MEM",
+            g = gdal.Warp("", f"/vsicurl/{img_db[k][b1]:s}", format="MEM",
                      cutlineDSName=f"{local_file}", cropToCutline=True)
         data2 = g.ReadAsArray()*1.
         data1[data1 < -9990] = np.nan
@@ -32,6 +32,7 @@ def extract_roi_data_ndre(img_db, roi=None, local_file=None):
         data1 = data1/10000.
         data2 = data2/10000.
         if not np.isnan(np.nanmean(data1)):
+            print(f"There is data for {k.strftime('%d %B %Y'):s}")
             ndvi = (data2-data1)/(data2+data1)
             analysis_data[k] = ndvi
     return analysis_data
