@@ -4,6 +4,7 @@ dependencies:
     - python>=3.6
     - jupyter
     - gdal>=2.3.0
+    - tqdm
     - libgdal>=2.3.0
     - numpy
     - scipy

@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 import json
+import warnings
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import datetime as dt
 
@@ -7,35 +9,57 @@ import urllib.request
 
 import numpy as np
 
+from tqdm import tqdm
+
 import gdal
+
 gdal.UseExceptions()
 
-def extract_roi_data_ndre(img_db, roi=None, b0=3, b1=6, local_file=None):
-    analysis_data = {}
-    for k in img_db.keys():
-        if local_file is None:
-            g = gdal.Warp("", f"/vsicurl/{img_db[k][b0]:s}", format="MEM",
-                     cutlineDSName=f"/vsicurl/{roi}", cropToCutline=True)
+
+def calculate_index(k, url0, url1, roi):
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        if roi.find("http://") >= 0:
+            prefix = "/vsicurl/"
         else:
-            g = gdal.Warp("", f"/vsicurl/{img_db[k][b0]:s}", format="MEM",
-                     cutlineDSName=f"{local_file}", cropToCutline=True)
+            prefix = ""
+        g = gdal.Warp("", f"/vsicurl/{url0:s}", format="MEM",
+                        cutlineDSName=f"{prefix:s}{roi}",
+                        cropToCutline=True)
         data1 = g.ReadAsArray()*1.
-        if local_file is None:
-            g = gdal.Warp("", f"/vsicurl/{img_db[k][b1]:s}", format="MEM",
-                     cutlineDSName=f"/vsicurl/{roi}", cropToCutline=True)
-        else:
-            g = gdal.Warp("", f"/vsicurl/{img_db[k][b1]:s}", format="MEM",
-                     cutlineDSName=f"{local_file}", cropToCutline=True)
+        g = gdal.Warp("", f"/vsicurl/{url1:s}", format="MEM",
+                        cutlineDSName=f"{prefix:s}{roi}",
+                        cropToCutline=True)
         data2 = g.ReadAsArray()*1.
         data1[data1 < -9990] = np.nan
         data2[data2 < -9990] = np.nan
         data1 = data1/10000.
         data2 = data2/10000.
-        if not np.isnan(np.nanmean(data1)):
-            print(f"There is data for {k.strftime('%d %B %Y'):s}")
-            ndvi = (data2-data1)/(data2+data1)
-            analysis_data[k] = ndvi
-    return analysis_data
+        if np.isnan(np.nanmean(data1)):
+            return k, None
+        ndvi = (data2-data1)/(data2+data1)
+        return k,ndvi
+
+
+def extract_roi_data_ndre(img_db, roi=None, b0=3, b1=6):
+    analysis_data = {}
+    with ThreadPoolExecutor(max_workers=10) as ex:
+        futures = []
+        for k in img_db.keys():
+            futures.append(ex.submit(calculate_index, k, img_db[k][b0],
+                                img_db[k][b1], roi))
+        kwargs = {
+            'total': len(futures),
+            'unit': 'it',
+            'unit_scale': True,
+            'leave': True
+        }
+        #Print out the progress as tasks complete
+        for f in tqdm(as_completed(futures), **kwargs):
+            f0, f1  = f.result()
+            analysis_data[f0] = f1
+    clean_data = {k:v for k,v in analysis_data.items() if v is not None}
+    return clean_data
 
 
 
