@@ -12,4 +12,4 @@ dependencies:
     - ipywidgets
     - pandas
     - jupyter_contrib_nbextensions
-    - widgetsnbextensions
+    - widgetsnbextension
