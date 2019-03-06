@@ -3,4 +3,5 @@
 # Install a JupyterLab extension for demonstration purposes
 jupyter labextension install @jupyterlab/geojson-extension jupyterlab-drawio
 jupyter labextension install @jupyter-widgets/jupyterlab-manager
+
 jupyter trust *.ipynb
