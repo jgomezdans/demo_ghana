@@ -5,10 +5,10 @@
 
 You can run this repository directly online, thanks to the Binder infrastructure. Here's a link to the whole repository, and individual practicals will be linked below.
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jgomezdans/demo_ghana/async?urlpath=lab/tree/home/jovyan)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jgomezdans/demo_ghana/master?urlpath=lab/tree/home/jovyan)
 
 
 
 
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jgomezdans/demo_ghana/async)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jgomezdans/demo_ghana/master)
