@@ -1,5 +1,8 @@
 name: geog0133_env
 
+channels:
+    - jgomezdans
+
 dependencies:
     - python>=3.6
     - jupyter
