@@ -6,6 +6,7 @@ dependencies:
     - gdal>=2.3.0
     - tqdm
     - libgdal>=2.3.0
+    - gomezengine
     - numpy
     - scipy
     - matplotlib
