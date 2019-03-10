@@ -1,10 +1,7 @@
 name: geog0133_env
 
-channels:
-    - jgomezdans
-
 dependencies:
-    - jupyterlab=1.0.0
+    - jupyterlab
     - notebook
     - nbconvert
     - ipykernel
@@ -14,7 +11,6 @@ dependencies:
     - matplotlib
     - pandas
     - python>=3.6
-    - gomezengine
     - gdal>=2.3.0
     - tqdm
     - libgdal>=2.3.0
