@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "roi",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "location": "S2_L2A_2018042_B08.vrt" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -2.087729006250176, 9.950163774005178 ], [ -0.175212147720327, 9.939479929289984 ], [ -0.183288509028622, 8.947564560808335 ], [ -2.090341057041101, 8.957164384369664 ], [ -2.087729006250176, 9.950163774005178 ] ] ] } }
+]
+}
