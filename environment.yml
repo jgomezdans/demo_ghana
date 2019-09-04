@@ -1,5 +1,6 @@
 name: ghana_ucl
-
+channels:
+    - conda-forge
 dependencies:
     - jupyterlab
     - dask
