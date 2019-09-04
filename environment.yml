@@ -21,3 +21,4 @@ dependencies:
     - pip
     - pip:
         - pcse
+        - git+https://github.com/jgomezdans/GomezEngine
