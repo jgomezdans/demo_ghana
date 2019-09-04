@@ -1,7 +1,8 @@
-name: geog0133_env
+name: ghana_ucl
 
 dependencies:
     - jupyterlab
+    - dask
     - notebook
     - nbconvert
     - ipykernel
@@ -16,3 +17,6 @@ dependencies:
     - libgdal>=2.3.0
     - jupyter_contrib_nbextensions
     - widgetsnbextension
+    - pip
+    - pip:
+        - pcse
