@@ -13,10 +13,10 @@ dependencies:
     - matplotlib
     - pandas
     - scipy
-    - python>=3.6
-    - gdal>=2.3.0
+    - python>=3.8
+    - gdal>=3.0
     - tqdm
-    - libgdal>=2.3.0
+    - libgdal>=3.0
     - jupyter_contrib_nbextensions
     - widgetsnbextension
     - pip
